@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{.Title}}</title>
+
+    {{if .IsDev}}
+        {{/* Development mode: Load Vite dev server */}}
+        <script type="module" src="http://localhost:5173/@vite/client"></script>
+        <script type="module" src="http://localhost:5173/main.ts"></script>
+    {{else}}
+        {{/* Production mode: Load compiled assets from manifest */}}
+        {{range .CSSFiles}}
+        <link rel="stylesheet" href="/dist/{{.}}">
+        {{end}}
+        {{range .JSFiles}}
+        <script type="module" src="/dist/{{.}}"></script>
+        {{end}}
+    {{end}}
+</head>
+<body>
+    {{/* Include header component */}}
+    {{template "header" .}}
+
+    <main>
+        {{/* Page content goes here */}}
+        <h1>Welcome to GoVite!</h1>
+        <p>This is a Vite + TypeScript + Go SSR application.</p>
+    </main>
+</body>
+</html>
